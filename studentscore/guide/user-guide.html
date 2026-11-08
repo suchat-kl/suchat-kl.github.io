@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วิธีใช้งาน สมุดคะแนนนักเรียน</title>
+<!--
+  ต้นฉบับคู่มือวิธีใช้งาน — แก้ไฟล์นี้แล้วสร้าง PDF ใหม่ด้วย build-pdf.ps1 (อยู่โฟลเดอร์เดียวกัน)
+  PDF ที่แอปเปิด: https://suchat-kl.github.io/studentscore/user-guide.pdf
+  รูปอยู่ใน img/ (ภาพจากแอปที่ใช้ข้อมูลตัวอย่าง ไม่ใช่ข้อมูลจริง)
+-->
+<style>
+@font-face { font-family: 'Sarabun'; src: url(fonts/Sarabun-Regular.ttf); font-weight: 400; }
+@font-face { font-family: 'Sarabun'; src: url(fonts/Sarabun-Bold.ttf); font-weight: 700; }
+@font-face { font-family: 'Kanit'; src: url(fonts/Kanit-Bold.ttf); font-weight: 700; }
+:root { --blue: #1E5AA8; --pale: #E8F0FB; --ink: #1d232b; --muted: #5b6573; --line: #d5dce6; }
+@page { size: A4; margin: 16mm 15mm 18mm; @bottom-center { content: counter(page); font-family: Sarabun; font-size: 10pt; color: #888; } }
+* { box-sizing: border-box; }
+html { background: #fff; }
+body { font-family: 'Sarabun', sans-serif; font-size: 12.5pt; line-height: 1.6; color: var(--ink); margin: 0 auto; max-width: 820px; padding: 24px 18px 60px; }
+h1, h2, h3 { font-family: 'Kanit', 'Sarabun', sans-serif; font-weight: 700; color: var(--blue); line-height: 1.3; }
+h2 { font-size: 19pt; margin: 0 0 8px; padding-bottom: 6px; border-bottom: 3px solid var(--blue); break-after: avoid; }
+h3 { font-size: 14pt; margin: 18px 0 4px; break-after: avoid; }
+section { break-before: page; padding-top: 4px; }
+p, li { margin: 4px 0; }
+ul, ol { padding-left: 24px; margin: 4px 0 8px; }
+b { color: #0f3a73; }
+a { color: var(--blue); }
+.cover { text-align: center; padding-top: 70px; }
+.cover img.icon { width: 120px; height: 120px; border-radius: 28px; }
+.cover h1 { font-size: 34pt; margin: 18px 0 4px; }
+.cover .sub { font-size: 15pt; color: var(--muted); }
+.cover .meta { margin-top: 40px; color: var(--muted); }
+.toc { margin: 40px auto 0; max-width: 520px; text-align: left; background: var(--pale); border-radius: 12px; padding: 14px 22px; }
+.toc ol { margin: 0; }
+.shots { display: flex; gap: 18px; justify-content: center; align-items: flex-start; flex-wrap: wrap; margin: 10px 0 6px; break-inside: avoid; }
+figure { margin: 0; width: 200px; text-align: center; break-inside: avoid; }
+figure img { width: 100%; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 2px 8px rgba(0,0,0,.12); }
+figcaption { font-size: 10.5pt; color: var(--muted); margin-top: 4px; }
+.row { display: flex; gap: 20px; align-items: flex-start; }
+.row > div { flex: 1; }
+.row > figure { flex: 0 0 200px; }
+table { border-collapse: collapse; width: 100%; margin: 6px 0 10px; font-size: 11.5pt; break-inside: avoid; }
+th, td { border: 1px solid var(--line); padding: 5px 8px; vertical-align: top; text-align: left; }
+th { background: var(--pale); }
+.note { background: #FFF7E0; border-left: 4px solid #F5B400; padding: 8px 12px; border-radius: 6px; margin: 8px 0; break-inside: avoid; }
+.tip { background: var(--pale); border-left: 4px solid var(--blue); padding: 8px 12px; border-radius: 6px; margin: 8px 0; break-inside: avoid; }
+.key { display: inline-block; border: 1px solid var(--blue); color: var(--blue); border-radius: 14px; padding: 0 9px; font-size: 11pt; white-space: nowrap; }
+@media screen and (max-width: 640px) {
+  .row { flex-direction: column; }
+  .row > figure { flex: none; align-self: center; }
+  section { border-top: 1px solid var(--line); margin-top: 30px; padding-top: 20px; }
+}
+@media print { body { max-width: none; padding: 0; } a { text-decoration: none; } }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <img class="icon" src="img/icon.png" alt="">
+  <h1>สมุดคะแนนนักเรียน</h1>
+  <div class="sub">คู่มือวิธีใช้งานสำหรับผู้ดูแลระบบ ครู และผู้ปกครอง</div>
+  <div class="toc">
+    <b>สารบัญ</b>
+    <ol>
+      <li>แอปนี้ทำอะไร ใครใช้</li>
+      <li>เริ่มต้น: เลือกวิธีใช้งาน</li>
+      <li>เข้าสู่ระบบ (ในเครื่อง / ออนไลน์)</li>
+      <li>เมนูหลักและแดชบอร์ด</li>
+      <li>บันทึกข้อมูลพื้นฐานและนำเข้าจาก Excel</li>
+      <li>บันทึกคะแนน</li>
+      <li>รายงานและส่งออก Excel / PDF</li>
+      <li>จัดการผู้ใช้ และเชิญผู้ปกครอง</li>
+      <li>สำหรับผู้ปกครอง</li>
+      <li>ตั้งค่า สำรองข้อมูล และความปลอดภัย</li>
+      <li>คำถามที่พบบ่อย</li>
+    </ol>
+  </div>
+  <div class="meta">ปรับปรุงล่าสุด 8 พฤศจิกายน 2569<br>
+  ฉบับล่าสุดเสมอ: <a href="https://suchat-kl.github.io/studentscore/user-guide.pdf">suchat-kl.github.io/studentscore/user-guide.pdf</a><br>
+  ภาพประกอบใช้ข้อมูลตัวอย่างของแอป ไม่ใช่ข้อมูลจริง</div>
+</div>
+
+<section>
+<h2>1. แอปนี้ทำอะไร ใครใช้</h2>
+<p>สมุดคะแนนนักเรียนช่วยครูบันทึกคะแนนตามรายการประเมิน คำนวณคะแนนรวม เกรด และ GPA ให้อัตโนมัติ ออกรายงานรายวิชา รายห้อง และรายบุคคล พร้อมกราฟ และส่งออกเป็น Excel หรือ PDF ภาษาไทยได้</p>
+<p>แอปนี้สำหรับ <b>ครู ผู้ดูแลระบบของโรงเรียน และผู้ปกครอง</b> (อายุ 18 ปีขึ้นไป) นักเรียนไม่มีบัญชีผู้ใช้ ข้อมูลของนักเรียนครูหรือโรงเรียนเป็นผู้บันทึก</p>
+<table>
+<tr><th style="width:24%">บทบาท</th><th>ทำอะไรได้</th></tr>
+<tr><td>ผู้ดูแลระบบ</td><td>จัดการข้อมูลทั้งหมด: ครู ห้องเรียน นักเรียน รายวิชา ผู้ใช้ เกณฑ์ตัดเกรด สำรอง/กู้คืน และดูรายงานทุกวิชา</td></tr>
+<tr><td>ครู</td><td>บันทึกคะแนนและดูรายงานเฉพาะวิชาที่ตนสอน (ครูที่ปรึกษาดูผลของนักเรียนในห้องที่ปรึกษาได้)</td></tr>
+<tr><td>ผู้ปกครอง</td><td>ดูผลการเรียนของบุตรหลานที่โรงเรียนผูกไว้เท่านั้น แก้ไขข้อมูลไม่ได้</td></tr>
+</table>
+<div class="tip">โฆษณาแสดงเฉพาะในบัญชีครู ผู้ปกครองและผู้ดูแลระบบไม่เห็นโฆษณา</div>
+</section>
+
+<section>
+<h2>2. เริ่มต้น: เลือกวิธีใช้งาน</h2>
+<div class="row">
+<div>
+<p>เปิดแอปครั้งแรกจะให้เลือกวิธีใช้งาน เปลี่ยนภายหลังได้จากเมนู <span class="key">สลับโรงเรียน/โหมด</span></p>
+<h3>ใช้ในเครื่อง (ส่วนตัว)</h3>
+<ul>
+<li>เหมาะกับครูที่ต้องการสมุดคะแนนส่วนตัว ไม่ต้องใช้อินเทอร์เน็ต</li>
+<li>ข้อมูลอยู่ในมือถือเครื่องนี้ สำรองเป็นไฟล์เข้ารหัส หรือเก็บบน Google Drive ของตนเองได้ (หัวข้อ 10)</li>
+<li>สร้างบัญชีครู/ผู้ปกครองในเครื่องเดียวกันได้ เช่น ให้ผู้ปกครองมาดูผลที่เครื่องของครู</li>
+</ul>
+<h3>เชื่อมต่อโรงเรียน (ออนไลน์)</h3>
+<ul>
+<li>ครูและผู้ปกครองทั้งโรงเรียนใช้ข้อมูลชุดเดียวกัน แต่ละคนใช้มือถือของตัวเอง เห็นเฉพาะข้อมูลตามสิทธิ์</li>
+<li>ข้อมูลเก็บในโปรเจกต์ Firebase ของโรงเรียนเอง (แพ็กเกจฟรี) ผู้ดูแลระบบต้องติดตั้งครั้งแรกตาม <a href="https://suchat-kl.github.io/studentscore/school-setup-guide.pdf">คู่มือติดตั้งโหมดออนไลน์สำหรับโรงเรียน</a></li>
+</ul>
+<p>ปุ่ม <span class="key">วิธีใช้งาน (PDF)</span> เปิดคู่มือฉบับนี้</p>
+</div>
+<figure><img src="img/mode.jpg" alt=""><figcaption>หน้าเลือกวิธีใช้งาน</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>3. เข้าสู่ระบบ</h2>
+<h3>3.1 โหมดในเครื่อง</h3>
+<div class="row">
+<div>
+<ol>
+<li>ครั้งแรก แอปให้ <b>สร้างบัญชีผู้ดูแลระบบ</b>: ตั้งชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านอย่างน้อย 8 ตัว</li>
+<li>ครั้งต่อไปเข้าด้วยชื่อผู้ใช้และรหัสผ่าน</li>
+<li>บัญชีที่ผู้ดูแลสร้างให้ (ครู/ผู้ปกครอง) ต้อง <b>ตั้งรหัสผ่านของตนเอง</b> ตอนเข้าครั้งแรก</li>
+</ol>
+<ul>
+<li>ใส่รหัสผิด 5 ครั้ง บัญชีจะถูกล็อก 5 นาที</li>
+<li>ปิดแอปหรือทิ้งไว้เบื้องหลังเกิน 15 นาที ระบบจะออกจากระบบให้เอง</li>
+<li>ลืมรหัสผ่าน: ให้ผู้ดูแลระบบตั้งรหัสใหม่ให้ที่เมนู <span class="key">จัดการผู้ใช้</span></li>
+</ul>
+</div>
+<figure><img src="img/login.jpg" alt=""><figcaption>เข้าสู่ระบบ (ในเครื่อง)</figcaption></figure>
+</div>
+
+<h3 style="break-before: page">3.2 โหมดออนไลน์</h3>
+<div class="row">
+<div>
+<ol>
+<li>ผู้ดูแลระบบส่ง <b>คำเชิญ</b> ถึงอีเมลของคุณ และแจก <b>รหัสเชื่อมต่อ</b> หรือ QR ของโรงเรียน (รหัสเชื่อมต่อไม่ใช่รหัสผ่าน)</li>
+<li>เลือก <span class="key">เชื่อมต่อโรงเรียน (ออนไลน์)</span> แล้วกด <span class="key">สแกน QR รหัสเชื่อมต่อ</span> หรือวางรหัสที่ขึ้นต้นด้วย <code>SSCHOOL1:</code></li>
+<li>ครั้งแรกกด <span class="key">ยังไม่มีบัญชี สมัคร</span> ใส่อีเมลที่ได้รับเชิญและตั้งรหัสผ่าน แล้วเปิดอีเมลกดลิงก์ยืนยัน (ถ้าไม่พบให้ดูในจดหมายขยะ) กลับมากด <span class="key">ยืนยันแล้ว</span></li>
+<li>แอปแสดงคำเชิญ ตรวจชื่อ บทบาท และกด <span class="key">ยอมรับคำเชิญ</span></li>
+</ol>
+<ul>
+<li>ถ้าโรงเรียนเปิดไว้ จะมีปุ่ม <span class="key">เข้าสู่ระบบด้วยบัญชี Google</span> ใช้แทนการตั้งรหัสผ่านได้</li>
+<li>ลืมรหัสผ่าน: ใส่อีเมลแล้วกด <span class="key">ลืมรหัสผ่าน</span> ระบบส่งลิงก์ตั้งรหัสใหม่ทางอีเมล</li>
+<li>ขึ้นว่า "ยังไม่ได้รับเชิญ": อีเมลที่ใช้ไม่ตรงกับที่โรงเรียนเชิญ ติดต่อผู้ดูแลระบบ</li>
+<li>อินเทอร์เน็ตหลุด: ยังดูข้อมูลที่เคยโหลดและบันทึกคะแนนได้ แอปส่งขึ้นเองเมื่อกลับมาออนไลน์</li>
+</ul>
+</div>
+<figure><img src="img/connect.jpg" alt=""><figcaption>เชื่อมต่อโรงเรียน</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>4. เมนูหลักและแดชบอร์ด</h2>
+<div class="row">
+<div>
+<p>แตะ <b>☰</b> มุมซ้ายบนเพื่อเปิดเมนู เมนูที่เห็นขึ้นกับบทบาท</p>
+<table>
+<tr><th>เมนู</th><th>ผู้ดูแล</th><th>ครู</th><th>ผู้ปกครอง</th></tr>
+<tr><td>แดชบอร์ด</td><td>✓</td><td>✓</td><td></td></tr>
+<tr><td>บันทึกข้อมูล</td><td>✓</td><td></td><td></td></tr>
+<tr><td>บันทึกคะแนน</td><td>✓</td><td>✓</td><td></td></tr>
+<tr><td>รายงาน</td><td>✓</td><td>✓</td><td></td></tr>
+<tr><td>ค้นหาข้อมูล</td><td>✓</td><td>✓</td><td></td></tr>
+<tr><td>จัดการผู้ใช้ / สมาชิกและคำเชิญ</td><td>✓</td><td></td><td></td></tr>
+<tr><td>ผลการเรียนบุตรหลาน</td><td></td><td></td><td>✓</td></tr>
+<tr><td>ตั้งค่า</td><td>✓</td><td>✓</td><td>✓</td></tr>
+<tr><td>วิธีใช้งาน (PDF)</td><td>✓</td><td>✓</td><td>✓</td></tr>
+</table>
+<p><b>ค้นหาข้อมูล</b> (แว่นขยายมุมขวาบน) พิมพ์รหัสหรือชื่อนักเรียน ครู วิชา หรือห้อง แล้วแตะผลลัพธ์เพื่อเปิดดู</p>
+</div>
+<figure><img src="img/menu.jpg" alt=""><figcaption>เมนูของผู้ดูแลระบบ</figcaption></figure>
+</div>
+<div class="row">
+<div>
+<h3>แดชบอร์ด</h3>
+<p>สรุปจำนวนนักเรียน ครู ห้องเรียน รายวิชา คะแนนที่บันทึก คะแนนรวมเฉลี่ย กราฟจำนวนผลการเรียนแต่ละเกรด คะแนนเฉลี่ยรายวิชา และนักเรียนคะแนนสูงสุด 5 อันดับ ครูเห็นเฉพาะวิชาที่ตนสอน</p>
+<div class="tip">ยังไม่มีข้อมูลและอยากลองใช้ก่อน: ผู้ดูแลระบบไปที่ <span class="key">ตั้งค่า</span> → <span class="key">สร้างข้อมูลตัวอย่าง</span> (ครู 2 คน ห้อง 1 ห้อง นักเรียน 8 คน 3 วิชาพร้อมคะแนน)</div>
+</div>
+<figure><img src="img/dashboard.jpg" alt=""><figcaption>แดชบอร์ด</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>5. บันทึกข้อมูลพื้นฐาน (ผู้ดูแลระบบ)</h2>
+<div class="row">
+<div>
+<p>เมนู <span class="key">บันทึกข้อมูล</span> มี 4 แท็บ แนะนำให้บันทึกตามลำดับนี้</p>
+<ol>
+<li><b>ครู</b> — รหัสครู ชื่อ-นามสกุล โทรศัพท์ กลุ่มสาระ/หมายเหตุ</li>
+<li><b>ห้องเรียน</b> — ชื่อห้อง (เช่น ม.1/1) ระดับชั้น ปีการศึกษา (พ.ศ.) และครูที่ปรึกษา</li>
+<li><b>นักเรียน</b> — รหัสนักเรียน ชื่อ นามสกุล ห้อง ชื่อ/โทรศัพท์/อีเมลผู้ปกครอง</li>
+<li><b>รายวิชา</b> — รหัสวิชา ชื่อวิชา หน่วยกิต ภาคเรียน (1, 2, ฤดูร้อน) ปีการศึกษา ครูผู้สอน และห้องเรียนที่สอน</li>
+</ol>
+<p>กดปุ่ม <b>+</b> เพื่อเพิ่ม แตะรายการเพื่อแก้ไข ปุ่มถังขยะเพื่อลบ ปุ่ม <span class="key">ผลการเรียน</span> ข้างชื่อนักเรียนเปิดใบรายงานรายบุคคล</p>
+<h3>นำเข้ารายชื่อนักเรียนจาก Excel / CSV</h3>
+<ol>
+<li>ในแท็บนักเรียน กด <span class="key">แบบฟอร์ม</span> เพื่อบันทึกไฟล์ Excel ตัวอย่าง (ลบแถวตัวอย่างก่อนใส่ข้อมูลจริง)</li>
+<li>คอลัมน์ที่รู้จัก: <b>รหัสนักเรียน, ชื่อ, นามสกุล</b> (หรือ ชื่อ-นามสกุล ช่องเดียว), ห้อง, ชื่อผู้ปกครอง, โทรศัพท์ผู้ปกครอง, อีเมลผู้ปกครอง</li>
+<li>กด <span class="key">นำเข้า Excel/CSV</span> เลือกไฟล์ แอปแสดงจำนวนที่เพิ่มใหม่/แก้ไข และห้องที่ยังไม่มี (เลือกให้สร้างห้องให้ได้)</li>
+</ol>
+<div class="note">นำเข้าซ้ำได้ นักเรียนจับคู่ด้วยรหัส คอลัมน์ที่ไม่มีในไฟล์จะคงค่าเดิมไว้ ไฟล์ CSV จาก Excel ภาษาไทยอ่านได้ทั้ง UTF-8 และแบบ Windows</div>
+</div>
+<figure><img src="img/master.jpg" alt=""><figcaption>บันทึกข้อมูล แท็บนักเรียน</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>6. บันทึกคะแนน</h2>
+<div class="row">
+<div>
+<ol>
+<li>เมนู <span class="key">บันทึกคะแนน</span> เลือกรายวิชา (ครูเห็นเฉพาะวิชาที่สอน)</li>
+<li>กำหนด <b>รายการประเมินและสัดส่วนคะแนน</b> กด <span class="key">+ เพิ่มรายการ</span> ใส่ชื่อ ประเภท (คะแนนเก็บ การบ้าน ชิ้นงาน/โครงงาน การมีส่วนร่วม คุณลักษณะ สอบกลางภาค สอบปลายภาค) คะแนนเต็ม และน้ำหนัก (%) เช่น เก็บ 30% กลางภาค 30% ปลายภาค 40% — น้ำหนักรวมควรเป็น 100%</li>
+<li>แตะชื่อรายการประเมินเพื่อกรอกคะแนนของนักเรียนทั้งห้องในหน้าเดียว</li>
+<li>กด <span class="key">บันทึก</span> (ตัวเลขในวงเล็บคือจำนวนช่องที่แก้ยังไม่ได้บันทึก)</li>
+</ol>
+<ul>
+<li>คะแนนต้องอยู่ระหว่าง 0 ถึงคะแนนเต็ม ช่องที่ผิดจะขึ้นสีแดงและบันทึกไม่ได้</li>
+<li>แก้คะแนนที่บันทึกไว้แล้ว ต้องใส่ <b>เหตุผลการแก้ไข</b> ระบบเก็บประวัติว่าใครแก้ เมื่อไร จากเท่าไรเป็นเท่าไร (ดูได้ที่ <span class="key">ตั้งค่า</span> → <span class="key">ประวัติการแก้ไขคะแนน</span>)</li>
+<li>ปุ่มดินสอแก้รายการประเมิน ปุ่มถังขยะลบรายการ (คะแนนของรายการนั้นจะถูกลบด้วย)</li>
+</ul>
+<div class="tip">คะแนนรวม = ผลรวมของ (คะแนนที่ได้ ÷ คะแนนเต็ม × น้ำหนัก) ของทุกรายการ แล้วตัดเกรดตามเกณฑ์ในหน้าตั้งค่า</div>
+</div>
+<figure><img src="img/scores.jpg" alt=""><figcaption>กรอกคะแนนทั้งห้อง</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>7. รายงานและส่งออก Excel / PDF</h2>
+<p>เมนู <span class="key">รายงาน</span> มี 3 แท็บ ทุกหน้ามีปุ่ม <span class="key">Excel</span> และ <span class="key">PDF</span> เลือกที่บันทึกไฟล์ได้ (เช่น ในเครื่องหรือ Google Drive) แล้วส่งต่อทาง LINE หรืออีเมลได้</p>
+<ul>
+<li><b>รายวิชา</b> — ค่าเฉลี่ย สูงสุด ต่ำสุด SD กราฟจำนวนแต่ละเกรด และตารางคะแนนทุกรายการของนักเรียนทั้งห้อง</li>
+<li><b>รายห้อง</b> — จำนวนนักเรียน จำนวนวิชา GPA เฉลี่ยของห้อง กราฟ GPA รายบุคคล และตารางคะแนน/เกรดทุกวิชา</li>
+<li><b>รายบุคคล</b> — ค้นหานักเรียนแล้วเปิดใบรายงานผล: GPA คะแนนรวมเฉลี่ย กราฟคะแนนแต่ละวิชา และรายละเอียดคะแนนทุกรายการ</li>
+</ul>
+<div class="shots">
+<figure><img src="img/report-subject.jpg" alt=""><figcaption>รายงานรายวิชา</figcaption></figure>
+<figure><img src="img/report-room.jpg" alt=""><figcaption>รายงานรายห้อง</figcaption></figure>
+<figure><img src="img/report-student.jpg" alt=""><figcaption>ผลการเรียนรายบุคคล</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>8. จัดการผู้ใช้ และเชิญผู้ปกครอง (ผู้ดูแลระบบ)</h2>
+<h3>8.1 โหมดในเครื่อง: เมนู "จัดการผู้ใช้"</h3>
+<div class="row">
+<div>
+<ol>
+<li>กด <span class="key">+ เพิ่มผู้ใช้</span></li>
+<li>เลือกบทบาท: <b>ครู</b> ให้เลือกครูที่ผูกกับบัญชี / <b>ผู้ปกครอง</b> ให้กด <span class="key">เลือกนักเรียนในความปกครอง</span> (เลือกได้หลายคน)</li>
+<li>ตั้งชื่อผู้ใช้ ชื่อที่แสดง และรหัสผ่านเริ่มต้น แล้วบอกรหัสนี้กับเจ้าของบัญชี ผู้ใช้ต้องเปลี่ยนรหัสเองตอนเข้าครั้งแรก</li>
+</ol>
+<ul>
+<li>แตะบัญชีเพื่อแก้ไข ตั้งรหัสใหม่ หรือปิดใช้งาน (ปิดสวิตช์ <b>ใช้งานได้</b>)</li>
+<li>ต้องมีผู้ดูแลระบบที่ใช้งานได้อย่างน้อย 1 บัญชีเสมอ</li>
+</ul>
+</div>
+<figure><img src="img/add-user.jpg" alt=""><figcaption>เพิ่มบัญชีผู้ปกครอง</figcaption></figure>
+</div>
+<h3>8.2 โหมดออนไลน์: เมนู "สมาชิกและคำเชิญ"</h3>
+<ul>
+<li>กด <span class="key">เชิญผู้ใช้</span> ใส่อีเมล ชื่อ บทบาท และครูที่ผูก/บุตรหลาน ผู้ได้รับเชิญสมัครด้วยอีเมลนั้นแล้วกดยอมรับคำเชิญ (หัวข้อ 3.2)</li>
+<li><span class="key">เชิญผู้ปกครองทั้งห้อง</span> เลือกห้อง แอปสร้างคำเชิญจาก <b>อีเมลผู้ปกครอง</b> ในข้อมูลนักเรียน (นำเข้าจาก Excel ได้) ผู้ปกครองที่มีลูกหลายคนในห้องจะได้คำเชิญเดียวที่ผูกลูกทุกคน นักเรียนที่ไม่มีอีเมลผู้ปกครองจะถูกข้าม</li>
+<li>แจกรหัสเชื่อมต่อหรือ QR ของโรงเรียนจาก <span class="key">ตั้งค่า</span> → การ์ด <b>โรงเรียน (ออนไลน์)</b> ปุ่ม <span class="key">คัดลอก</span> / <span class="key">แชร์</span></li>
+<li>แท็บ <b>คำเชิญที่รอรับ</b> แสดงคำเชิญที่ยังไม่มีใครรับ แก้ไขหรือยกเลิกได้</li>
+</ul>
+<div class="note">ผู้ใช้ของแอปคือครูและผู้ปกครอง แอปไม่สร้างบัญชีให้นักเรียน</div>
+</section>
+
+<section>
+<h2>9. สำหรับผู้ปกครอง</h2>
+<div class="row">
+<div>
+<ol>
+<li>เข้าสู่ระบบด้วยบัญชีที่โรงเรียนให้ (โหมดในเครื่อง) หรือสมัครด้วยอีเมลที่ได้รับเชิญ (โหมดออนไลน์ หัวข้อ 3.2)</li>
+<li>หน้า <b>ผลการเรียนบุตรหลาน</b> แสดงรายชื่อบุตรหลานที่โรงเรียนผูกไว้ แตะชื่อเพื่อดูผลการเรียน</li>
+<li>ใบรายงานผลแสดง GPA คะแนนรวมแต่ละวิชา เกรด และคะแนนทุกรายการประเมิน บันทึกเป็น Excel หรือ PDF ได้</li>
+</ol>
+<ul>
+<li>ผู้ปกครองเห็นเฉพาะบุตรหลานของตนเอง ดูของนักเรียนคนอื่นไม่ได้ และแก้ไขคะแนนไม่ได้</li>
+<li>ชื่อบุตรหลานไม่ครบหรือไม่ถูกต้อง ติดต่อครูหรือผู้ดูแลระบบของโรงเรียน</li>
+</ul>
+</div>
+<figure><img src="img/parent-detail.jpg" alt=""><figcaption>ผลการเรียนของบุตรหลาน</figcaption></figure>
+</div>
+</section>
+
+<section>
+<h2>10. ตั้งค่า สำรองข้อมูล และความปลอดภัย</h2>
+<div class="row">
+<div>
+<table>
+<tr><th style="width:32%">หัวข้อ</th><th>ใช้ทำอะไร</th></tr>
+<tr><td>บัญชีผู้ใช้</td><td>เปลี่ยนรหัสผ่าน ออกจากระบบ ลบบัญชีของฉัน</td></tr>
+<tr><td>ที่เก็บฐานข้อมูล (ในเครื่อง)</td><td>เก็บในเครื่องมือถือ หรือ <span class="key">ใช้ Google Drive</span> เก็บเป็นไฟล์เข้ารหัสใน Drive ของคุณ ใช้หลายเครื่องร่วมกันได้ แอปซิงก์ให้เองเมื่อเปิดแอปและหลังบันทึก</td></tr>
+<tr><td>รหัสไฟล์ข้อมูล</td><td>ต้องตั้งก่อนสำรองข้อมูลหรือใช้ Google Drive ไฟล์จะเข้ารหัส AES-256 ด้วยรหัสนี้ เปิดได้เฉพาะแอปนี้ที่รู้รหัส</td></tr>
+<tr><td>สำรอง / กู้คืนข้อมูล</td><td>สำรองเป็นไฟล์ <code>.ssdb</code> เก็บไว้ที่ใดก็ได้ กู้คืนจากไฟล์ได้ (ต้องใช้รหัสไฟล์ข้อมูลตอนที่สำรอง)</td></tr>
+<tr><td>เกณฑ์การตัดเกรด</td><td>กำหนดคะแนนต่ำสุดของแต่ละเกรด (จากคะแนนรวม 100) เพิ่ม/ลบขั้นได้ ปุ่ม <span class="key">ค่าตั้งต้น</span> คืนเกณฑ์ 80 = 4, 75 = 3.5, 70 = 3, 65 = 2.5, 60 = 2, 55 = 1.5, 50 = 1, ต่ำกว่า 50 = 0</td></tr>
+<tr><td>ปีการศึกษา (เก็บถาวร/ลบ)</td><td>ส่งออกผลการเรียนทั้งปีเป็น Excel (ชีตสรุป + ชีตละรายวิชา) แล้วจึงลบปีนั้นออกเพื่อลดขนาดข้อมูลได้</td></tr>
+<tr><td>ประวัติการแก้ไขคะแนน</td><td>ดูว่าใครแก้คะแนนอะไร เมื่อไร และเหตุผล</td></tr>
+<tr><td>ข้อมูลตัวอย่าง</td><td>สร้างข้อมูลทดลองใช้ (ผู้ดูแลระบบ)</td></tr>
+</table>
+</div>
+<figure><img src="img/settings.jpg" alt=""><figcaption>ตั้งค่า</figcaption></figure>
+</div>
+<div class="note"><b>ลืมรหัสไฟล์ข้อมูล</b> จะเปิดไฟล์สำรองและไฟล์บน Google Drive จากเครื่องอื่นไม่ได้ ไม่มีใครกู้ให้ได้ ควรจดเก็บไว้ในที่ปลอดภัย เครื่องเดิมยังใช้งานต่อได้เพราะจำกุญแจไว้</div>
+<h3>ลบบัญชีและล้างข้อมูล</h3>
+<ul>
+<li><span class="key">ลบบัญชีของฉัน</span> ลบบัญชีเข้าสู่ระบบของคุณ คะแนนและผลการเรียนที่โรงเรียนบันทึกยังอยู่ (เป็นข้อมูลของโรงเรียน) ผู้ดูแลระบบคนสุดท้ายลบตัวเองไม่ได้</li>
+<li><span class="key">ล้างข้อมูลทั้งหมดในเครื่อง</span> ลบทุกอย่างของแอปในเครื่องนี้ ไม่ลบข้อมูลบน Google Drive หรือบน Firebase ของโรงเรียน</li>
+<li>ขอลบบัญชีโดยไม่ต้องเปิดแอป: <a href="https://suchat-kl.github.io/studentscore/delete-account.html">suchat-kl.github.io/studentscore/delete-account.html</a></li>
+</ul>
+</section>
+
+<section>
+<h2>11. คำถามที่พบบ่อย</h2>
+<h3>ใช้ทั้งในเครื่องและออนไลน์พร้อมกันได้ไหม</h3>
+<p>ได้ สลับได้จากเมนู <span class="key">สลับโรงเรียน/โหมด</span> ข้อมูลสองแบบแยกจากกัน เชื่อมต่อได้หลายโรงเรียนในเครื่องเดียว</p>
+<h3>เปลี่ยนมือถือเครื่องใหม่</h3>
+<p><b>ในเครื่อง:</b> สำรองข้อมูลเป็นไฟล์ .ssdb แล้วกู้คืนที่เครื่องใหม่ หรือใช้ Google Drive บัญชีเดิมแล้วใส่รหัสไฟล์ข้อมูล <b>ออนไลน์:</b> ติดตั้งแอป เชื่อมต่อโรงเรียนด้วยรหัสเดิม และเข้าสู่ระบบด้วยอีเมลเดิม ข้อมูลอยู่ที่ server ของโรงเรียน</p>
+<h3>ขึ้นว่า "โรงเรียนยังไม่ได้ติดตั้งกติกาสิทธิ์" หรือ "เปิดให้ทุกคนอ่าน/เขียนได้"</h3>
+<p>ผู้ดูแลระบบของโรงเรียนต้องวางไฟล์กติกาสิทธิ์ใน Firebase ตาม <a href="https://suchat-kl.github.io/studentscore/school-setup-guide.pdf">คู่มือติดตั้งโหมดออนไลน์</a> ขั้นที่ 5 ปุ่ม <span class="key">ส่งไฟล์กติกาสิทธิ์ไปที่คอมพิวเตอร์</span> ในแอปช่วยส่งไฟล์ไปเปิดบนคอมพิวเตอร์</p>
+<h3>ไม่ได้รับอีเมลยืนยันหรืออีเมลตั้งรหัสผ่านใหม่</h3>
+<p>ดูในโฟลเดอร์จดหมายขยะ/โปรโมชัน แล้วกด <span class="key">ส่งอีเมลยืนยันอีกครั้ง</span> ตรวจว่าพิมพ์อีเมลถูก</p>
+<h3>ข้อความ "ใช้โควตาฟรีของวันนี้ครบแล้ว"</h3>
+<p>แพ็กเกจฟรีของ Firebase จำกัดจำนวนการอ่าน/เขียนต่อวัน ข้อมูลที่บันทึกจะส่งขึ้นเองหลังโควตารีเซ็ต (ประมาณ 15:00 น. เวลาไทย) ผู้ดูแลระบบตรวจพื้นที่ที่ใช้ได้ที่ <span class="key">ตั้งค่า</span> → <b>พื้นที่ข้อมูลออนไลน์</b> (เก็บได้ 1 GB ต่อโรงเรียน ใกล้เต็มให้ส่งออกปีการศึกษาเก่าแล้วลบ)</p>
+<h3>คะแนนรวมหรือเกรดไม่ตรงกับที่คิด</h3>
+<p>ตรวจน้ำหนักของรายการประเมินให้รวม 100% และตรวจเกณฑ์การตัดเกรดที่หน้าตั้งค่า</p>
+<h3>ติดต่อผู้พัฒนา</h3>
+<p>อีเมล <a href="mailto:suchat.msit04@gmail.com">suchat.msit04@gmail.com</a> • นโยบายความเป็นส่วนตัว <a href="https://suchat-kl.github.io/studentscore/privacy-policy.html">suchat-kl.github.io/studentscore/privacy-policy.html</a></p>
+</section>
+
+</body>
+</html>
