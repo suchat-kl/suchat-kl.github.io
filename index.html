@@ -3,22 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>สมุดคะแนนนักเรียน</title>
+<title>แอปของ Suchat Klamphimai</title>
 <style>
-  :root { --fg:#1d2433; --muted:#5a6475; --accent:#1e5aa8; --bg:#fff; }
-  @media (prefers-color-scheme: dark) { :root { --fg:#e8ecf3; --muted:#a7b0bf; --accent:#8fb6ec; --bg:#141922; } }
+  :root { --fg:#1d2433; --muted:#5a6475; --line:#e3e7ee; --accent:#1e5aa8; --bg:#fff; }
+  @media (prefers-color-scheme: dark) { :root { --fg:#e8ecf3; --muted:#a7b0bf; --line:#2c3443; --accent:#8fb6ec; --bg:#141922; } }
   body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.7 "Sarabun","Noto Sans Thai",system-ui,sans-serif; }
-  main { max-width:720px; margin:0 auto; padding:40px 16px; } a { color:var(--accent); } p { color:var(--muted); }
+  main { max-width:720px; margin:0 auto; padding:40px 16px; } a { color:var(--accent); }
+  .app { border:1px solid var(--line); border-radius:8px; padding:12px 16px; margin:16px 0; }
+  .app h2 { margin:0; font-size:1.2rem; } .app p { margin:4px 0; color:var(--muted); }
 </style>
 </head>
 <body>
 <main>
-<h1>สมุดคะแนนนักเรียน</h1>
-<p>แอป Android สำหรับบันทึกคะแนน คำนวณเกรด และออกรายงาน ใช้คนเดียวในเครื่องหรือเชื่อมต่อทั้งโรงเรียน</p>
-<ul>
-<li><a href="privacy-policy.html">นโยบายความเป็นส่วนตัว</a></li>
-<li><a href="delete-account.html">ขอลบบัญชี</a></li>
-</ul>
+<h1>แอปของ Suchat Klamphimai</h1>
+<p>ติดต่อ: suchat.msit04@gmail.com</p>
+
+<div class="app">
+  <h2>สมุดคะแนนนักเรียน</h2>
+  <p>บันทึกคะแนน คำนวณเกรด และออกรายงาน ใช้คนเดียวในเครื่องหรือเชื่อมต่อทั้งโรงเรียน</p>
+  <a href="studentscore/privacy-policy.html">นโยบายความเป็นส่วนตัว</a> ·
+  <a href="studentscore/delete-account.html">ขอลบบัญชี</a>
+</div>
 </main>
 </body>
 </html>
