@@ -35,7 +35,7 @@
 <p class="lang-links"><a href="#th">ภาษาไทย</a> · <a href="#en">English</a></p>
 
 <h1 id="th">นโยบายความเป็นส่วนตัว — โทรจำกัดเวลา</h1>
-<p class="updated">มีผลบังคับใช้: 26 ตุลาคม 2569 · ปรับปรุงล่าสุด: 17 พฤศจิกายน 2569</p>
+<p class="updated">มีผลบังคับใช้: 26 ตุลาคม 2569 · ปรับปรุงล่าสุด: 19 พฤศจิกายน 2569</p>
 
 <p>
   นโยบายนี้อธิบายว่าแอปพลิเคชัน <strong>โทรจำกัดเวลา (Call Limit)</strong> (ชื่อแพ็กเกจ
@@ -98,9 +98,9 @@
     <td>ยังสั่นเตือนและวางสายได้ตามปกติ แต่ไม่เห็นการแจ้งเตือน</td>
   </tr>
   <tr>
-    <td><code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td>
-    <td>ให้ตัวจับเวลาทำงานต่อขณะที่ท่านอยู่ในหน้าจอการโทร ทำงานเฉพาะระหว่างการโทรที่ท่านเริ่มจากแอปนี้</td>
-    <td>— (ไม่ต้องขออนุญาต)</td>
+    <td><code>SCHEDULE_EXACT_ALARM</code><br>การปลุกและการช่วยเตือน</td>
+    <td>ตั้งเวลาให้แอปเตือนก่อนหมด 1 นาทีและวางสายตรงนาทีที่ท่านกำหนด ใช้เฉพาะระหว่างการโทรที่ท่านเริ่มจากแอปนี้</td>
+    <td>Android อาจเตือนและวางสายช้ากว่ากำหนด</td>
   </tr>
   <tr>
     <td><code>VIBRATE</code></td>
@@ -137,6 +137,7 @@
   </tr>
   <tr>
     <td><code>MODIFY_AUDIO_SETTINGS</code>,
+        <code>FOREGROUND_SERVICE</code>,
         <code>FOREGROUND_SERVICE_MICROPHONE</code>,
         <code>FOREGROUND_SERVICE_CONNECTED_DEVICE</code></td>
     <td>สลับเสียงระหว่างหูฟังโทรศัพท์กับลำโพง และให้สายทำงานต่อเมื่อปิดหน้าจอแอป</td>
@@ -256,7 +257,7 @@
 <hr>
 
 <h1 id="en">Privacy Policy — Call Limit</h1>
-<p class="updated">Effective: 26 October 2026 · Last updated: 17 November 2026</p>
+<p class="updated">Effective: 26 October 2026 · Last updated: 19 November 2026</p>
 
 <p>
   This policy explains how the <strong>Call Limit</strong> app (package
@@ -320,10 +321,10 @@
     <td>Vibration alerts and the automatic hang-up still work; no notifications are shown.</td>
   </tr>
   <tr>
-    <td><code>FOREGROUND_SERVICE</code>, <code>FOREGROUND_SERVICE_SPECIAL_USE</code></td>
-    <td>Keeps the timer running while you are on the call screen, only during a call
-        started from this app.</td>
-    <td>— (granted automatically)</td>
+    <td><code>SCHEDULE_EXACT_ALARM</code></td>
+    <td>Sets the one-minute warning and the hang-up for the exact minute you chose, only during
+        a call started from this app.</td>
+    <td>Android may deliver the warning and the hang-up late.</td>
   </tr>
   <tr>
     <td><code>VIBRATE</code></td>
@@ -361,6 +362,7 @@
   </tr>
   <tr>
     <td><code>MODIFY_AUDIO_SETTINGS</code>,
+        <code>FOREGROUND_SERVICE</code>,
         <code>FOREGROUND_SERVICE_MICROPHONE</code>,
         <code>FOREGROUND_SERVICE_CONNECTED_DEVICE</code></td>
     <td>Switches between earpiece and speaker, and keeps the call going when you leave the app.</td>
